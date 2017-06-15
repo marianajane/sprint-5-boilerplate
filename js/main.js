@@ -1,5 +1,5 @@
 var api = {
-  url: 'https://private-anon-c89ea3a8f3-foroapi.apiary-mock.com/topics'
+  url: 'https://examen-laboratoria-sprint-5.herokuapp.com/topics'
 };
 
 
@@ -59,8 +59,8 @@ var buscar = function () {
 var filtrarTemas = function (e) {
   e.preventDefault();
   var criterioBusqueda = $("#search").val().toLowerCase();
-  var temasFiltrados = tema.filter(function (tema) {
-    return tema.content.toLowerCase().indexOf(criterioBusqueda) >= 0;
+  var temasFiltrados = contenido.filter(function (tema) {
+    return contenido.content.toLowerCase().indexOf(criterioBusqueda) >= 0;
   });
   mostrarTemas(temasFiltrados);
 };
