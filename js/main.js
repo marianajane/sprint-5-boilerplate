@@ -1,78 +1,79 @@
 var api = {
-  url: 'https://examen-laboratoria-sprint-5.herokuapp.com/topics'
+  url: 'http://examen-laboratoria-sprint-5.herokuapp.com/topics'
 };
 
+$('.modal').modal();
 
-$(document).ready(function(){
-    $('.modal').modal();
-});
+var $temas = $("#temas");
+var $filtrar = $("#filtrar");
+var arregloTopics = [];
 
+var cargarPagina = function(){
+  cargarTopics();
+  $("#guardar").click(agregarTopic);
+  $("#add-form").submit(agregarTopic);
+  $(document).on("click", $filtrar, filtrarTopic);
+  $("#form-search").submit(filtrarTopic);
 
-var $topicList = $("#topic-list");
-
-var cargarPagina = function () {
-    cargarTemas();
-    $("#add-form").submit(agregarTema);
 };
 
-var cargarTemas = function () {
+var cargarTopics = function () {
   $.getJSON(api.url, function (topics) {
-    topics.forEach(crearTema);
+    arregloTopics= topics;
+    //console.log(arregloTopics);
+    topics.forEach(crearTopic);
+    //console.log(topics);
   });
 }
 
-var plantillaTema = '<tr class="topics" data-id="**id**">'+
-            '<td>**contenido**</td>'+
-            '<td>**autor**</td>'+
-            '<td>Respuestas</td>'+
-        '</tr>';
+var crearTopic = function (topic) {
+  var contenido = topic.content;
+  var autor = topic.author_name;
+  var id = topic.id;
+  var responses = topic.responses_count;
+  var plantillaNueva = plantilla.replace("__content__",contenido).replace("__autor__",autor).replace("__respuestas__",responses).replace("__id__",id);
+  $temas.prepend(plantillaNueva);
 
-var crearTema = function (tema) {
-    var id = tema._id;
-    var contenido = tema.content
-    var autor = tema.author_name;
-    var nuevaPlantilla =" ";
-
-        nuevaPlantilla += plantillaTema.replace('**id**',id).replace('**contenido**', contenido).replace('**autor**', autor);
-        $topicList.append(nuevaPlantilla);
 };
 
-var agregarTema = function(e){
-    e.preventDefault();
-    var nombreTema = $ ("#nombre-tema").val();
-    var autorTema = $("#autor").val();
-    $.post(api.url,{
-        content:nombreTema,
-        author_name: autorTema,
-    },  function (response){
-        $("#modal1").modal("hide");
-        cargarTemas();
-    });
-};
-
-//Buscar temas
-
-var buscar = function () {
-  $("#search-form").submit(filtrarTemas);
-};
-
-var filtrarTemas = function (e) {
+var agregarTopic = function (e) {
   e.preventDefault();
-  var criterioBusqueda = $("#search").val().toLowerCase();
-  var temasFiltrados = contenido.filter(function (tema) {
-    return contenido.content.toLowerCase().indexOf(criterioBusqueda) >= 0;
+  var autor = $("#autor").val();
+  var mensaje = $("#mensaje").val();
+  
+  $.post(api.url, {
+    author_name : autor,
+    content : mensaje,
+  }, 
+ 
+  function (topic) {
+    topic.responses_count=0;
+    crearTopic(topic);
+    $("#crear").modal("close");
   });
-  mostrarTemas(temasFiltrados);
+
 };
 
-var mostrarTemas = function (tema) {
-  var plantillaBusqueda = "";
-  tema.forEach(function (tema) {
-    plantillaBusqueda += plantillaTema.replace("**contenido**", tema.content);
-    
-  });
-  $("#topic-list").html(plantillaBusqueda);
+var plantilla = '<tr>' +
+                    '<td><a href="verTopic.html?topic_id=__id__">__content__</a></td>' + 
+                    '<td>__autor__</td>' +
+                    '<td>__respuestas__</td>' +
+                 '</tr>';
+
+var filtrarTopic = function (e) {
+e.preventDefault();
+//alert("Filtrando tema");
+  var $filtro = $("#filtro").val().toLowerCase();
+  console.log($filtro); 
+
+  var topicsFiltrados = arregloTopics.filter(function(topics){
+    //console.log(topics.content);
+    return topics.content.toLowerCase().indexOf($filtro)>=0;
+    });
+  $temas.html("");
+  topicsFiltrados.forEach(crearTopic);
 
 };
+
 
 $(document).ready(cargarPagina);

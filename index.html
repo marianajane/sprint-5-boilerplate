@@ -11,53 +11,63 @@
   <body>
     <section class="container">
         <h4 class="center-align">A mishmash or hodgepodge forum</h4><br>
-        <form id="search-form">
-            <div class="input-field">
-                <input id="search" type="search" required>
-                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons">close</i>
-            </div>
-        </form>
-        <div class="center-align">
-            <a class="waves-effect waves-light btn" href="#modal1">Crear tema</a>
-        </div><br>
-        <table class="table table-striped table-responsive">
-            <thead>
-                <th>Temas</th>
-                <th>Autor</th>
-                <th>Respuestas</th>
-            </thead>
-            <tbody id="topic-list">
-                <!--Plantilla Tema--> 
-            </tbody>
-        </table>
-    </section> 
-    <!-- Modal -->
-    <div id="modal1" class="modal">
-        <form  id="add-form">
-            <div class="modal-content">
-                <h4>Nuevo tema</h4>
+        <section>
+            <form id="search-form" >
                 <div class="row">
-                    <div class="col s7">
-                       <label for="nombre-tema">Nombre tema:</label>
-                        <input type="text" class="form-control" id="nombre-tema" placeholder="Tema"> 
-                    </div>
-                    <div class="col s5">
-                        <label for="autor">Por:</label>
-                        <input type="text" class="form-control" id="autor" placeholder="Tema">
+                    <div class="col s12">
+                       <div class="input-field">
+                            <input id="filtro" type="search" placeholder="Buscar Tema" required>
+                            <label class="label-icon" for="filtro"><i class="material-icons">search</i>
+                            </label>
+                            <button id="filtrar" type="submit" class="waves-effect btn-flat">Buscar</button>
+                            <i class="material-icons left">close</i>
+                        </div> 
                     </div>
                 </div>
+            </form>
+            <div class="row">
+                <a class="waves-effect waves-light btn right" href="#modal1">+ Crear Tema</a>
             </div>
-            <label placeholder="aquí lo que sea"></label>
-            <div class="modal-footer">
-                <a href="#!" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">+ Agregar</a>
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+            <table class="responsive-table">               
+                <thead>
+                    <tr>
+                        <th>Tema</th>
+                        <th>Autor</th>
+                        <th>Respuestas</th>
+                    </tr>
+                </thead>
+                <tbody id="temas">  
+                </tbody>
+            </table>
+        </section>
+    <!-- Modal -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Agregar Tema</h4>
+                <div class="row">
+                    <form id="add-topic" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="autor" type="text" class="validate">
+                                <label for="autor">Autor</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="mensaje" type="text" class="validate"></input>
+                                <label for="mensaje">Tema</label>
+                            </div>
+                        </div>
+                        <button id="guardar" type="submit" class="modal-action modal-close waves-effect waves-green btn-flat right">Agregar</button>
+                    </form>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
     <!-- jQuery -->
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
+
+
+
+
